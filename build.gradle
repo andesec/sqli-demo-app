@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.andesec'
+group = 'com.andesec'
 version = '1.0-SNAPSHOT'
 
 repositories {
