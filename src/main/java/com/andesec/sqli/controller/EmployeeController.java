@@ -17,8 +17,8 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public List<Employee> search(@RequestParam(defaultValue="") String q) throws SQLException {
-        /* toggle ↓↓↓ to demo insecure vs secure build */
-         return repo.findInsecure(SqlInjectionDemoApplication.LOGGED_IN_MANAGER, q); // ✗
-//        return repo.findSecure(SqlInjectionDemoApplication.LOGGED_IN_MANAGER, q);      // ✓
+        return repo.findInsecure(SqlInjectionDemoApplication.LOGGED_IN_MANAGER, q); // ✗
+//        return repo.findSecure(SqlInjectionDemoApplication.LOGGED_IN_MANAGER, q); // ✓
     }
+
 }

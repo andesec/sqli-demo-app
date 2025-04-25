@@ -1,8 +1,9 @@
 /* employees (insert once) */
-INSERT INTO employees(id,name,manager)
+INSERT OR IGNORE INTO employees(id,name,manager)
 SELECT 1,'Bob','alice'
  WHERE (SELECT COUNT(*) FROM employees)=0;
-INSERT INTO employees(id,name,manager) VALUES
+
+INSERT OR IGNORE INTO employees(id,name,manager) VALUES
  (2,'Charlie','alice'),
  (3,'David','alice'),
  (4,'Eve','alice'),
@@ -24,10 +25,11 @@ INSERT INTO employees(id,name,manager) VALUES
  (20,'Wendy','carson');
 
 /* payroll (insert once) */
-INSERT INTO payroll(id,emp_id,salary,bank_account)
+INSERT OR IGNORE INTO payroll(id,emp_id,salary,bank_account)
 SELECT 1,1,95000,'US12-ALICE-0001'
  WHERE (SELECT COUNT(*) FROM payroll)=0;
-INSERT INTO payroll(id,emp_id,salary,bank_account) VALUES
+
+INSERT OR IGNORE INTO payroll(id,emp_id,salary,bank_account) VALUES
  (2,2,88000,'US12-ALICE-0002'),
  (3,3,87000,'US12-ALICE-0003'),
  (4,4,86000,'US12-ALICE-0004'),
@@ -49,10 +51,10 @@ INSERT INTO payroll(id,emp_id,salary,bank_account) VALUES
  (20,20,68000,'US12-CAR-0020');
 
 /* secrets (insert once) */
-INSERT INTO secrets(id,title,secret_data)
+INSERT OR IGNORE INTO secrets(id,title,secret_data)
 SELECT 1,'Master API key','XJ92-SECRET-KEY-ALPHA'
  WHERE (SELECT COUNT(*) FROM secrets)=0;
-INSERT INTO secrets(id,title,secret_data) VALUES
+INSERT OR IGNORE INTO secrets(id,title,secret_data) VALUES
  (2,'Prod DB creds','postgres://admin:supersecret@prod-db'),
  (3,'JWT signing key','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9…'),
  (4,'S3 backup bucket','s3://backup-bucket-2025'),

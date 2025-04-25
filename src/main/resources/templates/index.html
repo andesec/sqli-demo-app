@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0d6efd;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        main {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Employee Viewer</h1>
+        <div>Logged in as <strong th:text="${manager}">Manager</strong></div>
+    </header>
+
+    <main>
+        <div>
+            <input type="text" id="searchInput" placeholder="Search employee name…">
+            <button onclick="fetchEmployees()">Search</button>
+        </div>
+
+        <div id="results"></div>
+    </main>
+
+    <script>
+        function fetchEmployees() {
+            const q = document.getElementById('searchInput').value;
+            fetch('/api/employees?q=' + encodeURIComponent(q))
+                .then(response => response.json())
+                .then(data => {
+                    let html = '<h2>Found ' + data.length + ' employees</h2>';
+                    html += '<table><thead><tr><th>ID</th><th>Name</th><th>Manager</th></tr></thead><tbody>';
+                    data.forEach(emp => {
+                        html += `<tr><td>${emp.id}</td><td>${emp.name}</td><td>${emp.manager}</td></tr>`;
+                    });
+                    html += '</tbody></table>';
+                    document.getElementById('results').innerHTML = html;
+                });
+        }
+
+        // Auto-load all employees on page load
+        window.onload = fetchEmployees;
+    </script>
+
+</body>
+
+</html>

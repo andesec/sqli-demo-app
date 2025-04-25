@@ -16,10 +16,9 @@ public class EmployeeRepository {
 
     /* ✗ VULNERABLE dynamic SQL  ----------------------------------------- */
     public List<Employee> findInsecure(String mgr, String term) throws SQLException {
-        String sql = "SELECT * FROM employees WHERE manager = '" + mgr +
-                "' AND name LIKE '%" + term + "%'";
-        try (Statement st = dataSource.getConnection().createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+        String sql = "SELECT * FROM employees WHERE manager = '" + mgr + "' AND name LIKE '%" + term + "%'";
+
+        try (Statement st = dataSource.getConnection().createStatement(); ResultSet rs = st.executeQuery(sql)) {
             return map(rs);
         }
     }
@@ -27,8 +26,8 @@ public class EmployeeRepository {
     /* ✓ SAFE prepared-statement version  -------------------------------- */
     public List<Employee> findSecure(String mgr, String term) throws SQLException {
         String sql = "SELECT * FROM employees WHERE manager = ? AND name LIKE ?";
-        try (Connection c = dataSource.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+
+        try (Connection c = dataSource.getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, mgr);
             ps.setString(2, "%" + term + "%");
             try (ResultSet rs = ps.executeQuery()) {
@@ -44,7 +43,8 @@ public class EmployeeRepository {
             list.add(new Employee(
                     rs.getInt("id"),
                     rs.getString("name"),
-                    rs.getString("manager")));
+                    rs.getString("manager")
+            ));
         }
         return list;
     }

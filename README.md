@@ -12,7 +12,6 @@ Simple one-container lab to demonstrate SQL Injection and its fix.
 ## Build + run in Docker
 ```bash
 docker compose up --build
-open http://localhost:8080
 ```
 
 ## Toggle vulnerable / fixed
