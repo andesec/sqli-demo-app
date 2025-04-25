@@ -1,9 +1,14 @@
 plugins {
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.5'
     id 'java'
+    id 'war'                       // <-- add (JSPs need WAR packaging)
 }
 
-group = 'com.andesec'
-version = '1.0-SNAPSHOT'
+group   = 'com.andesec'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '21'
+
 
 repositories {
     mavenCentral()
@@ -12,8 +17,24 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.xerial:sqlite-jdbc:3.46.0.0'
+
+    /* JSP support */
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'      // JSP engine
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'        // compile-only
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
+    runtimeOnly  'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.1'    // JSTL impl
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
 
 test {
     useJUnitPlatform()
+}
+
+tasks.named('bootJar') {
+    launchScript()
 }

@@ -1,18 +1,23 @@
-# sqli-sample-app
+# SQLi Demo App (Gradle + Spring Boot)
 A java spring boot application demonstrating the SQL Injection vulnerability and how to fix it.
 
-# Employee-Viewer – SQL Injection Lab (Spring Boot + SQLite)
+Simple one-container lab to demonstrate SQL Injection and its fix.
 
-A one-container demo that lets you:
-
-* Bypass authentication with a classic **' OR 1=1 --** payload
-* Switch to a **prepared-statement** fix and prove the attack fails
-* Dump extra “sensitive” tables (`payroll`, `secrets`) with **sqlmap**
-
----
-
-## 1 Run
+## Run locally (gradle wrapper)
 
 ```bash
-docker compose up --build        # first build (~1 min)
-# open http://localhost:8080
+./gradlew bootRun            # Hot-reload dev mode
+```
+
+## Build + run in Docker
+```bash
+docker compose up --build
+open http://localhost:8080
+```
+
+## Toggle vulnerable / fixed
+Edit EmployeeController.java:
+```java
+// return repo.findInsecure(...);      // ✗ bypassable
+// return repo.findSecure(...);        // ✓ protected
+```
